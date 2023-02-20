@@ -1,24 +1,37 @@
-const Users = require('../models/users.models')
-const uuid = require('uuid')
-const { hashPassword } = require('../utils/crypto')
+const {Users} = require( '../models/index.models' )
+const uuid = require( 'uuid' ).v4
+const {hashPassword} = require( '../utils/crypto' )
 
-const findAllUser = async () => {
+const findAllUsers = async (  ) => {
     const data = await Users.findAll()
     return data
 }
 
-const findUserById = async (id) => {
+const findUserByEmail = async ( email ) => {
     const data = await Users.findOne({
-        where: {
-            id: id
+        where:{
+            email
+        },
+        attributes:{
+            include:['email']
         }
     })
     return data
 }
 
-const createNewUser = async (userObj) => {
+const findUserById = async ( id ) => {
+    const data = await Users.findOne({
+        where:{
+            id
+        }
+    })
+    return data
+}
+
+const createUser = async ( userObj ) => {
+    console.log(userObj)
     const newUser = {
-        id: uuid.v4(),
+        id: uuid(),
         firstName : userObj.firstName,
         lastName : userObj.lastName,
         email: userObj.email,
@@ -27,32 +40,30 @@ const createNewUser = async (userObj) => {
         phone : userObj.phone
     }
     const data = await Users.create(newUser)
+    console.log(data)
     return data
 }
 
-const updateUser = async (id, userObj) => {
-    //data === 1
-    const data = await Users.update(userObj,{
-        where: {
-            id: id
+const updateUser =  async ( id, userObj ) => {
+    //? Data === [0] || [1]
+    const data = await Users.update( userObj, {
+        where:{
+            id
         }
-    })
-    return data[0]
+    } )
+    return data[0] 
 }
 
-const deleteUser = async (id) => {
-    const data = await Users.destroy({
-        where: {
-            id: id
-        }
-    })
+const deleteUser = async ( id ) => {
+    const data  = await Users.destroy( id )
     return data
 }
 
 module.exports = {
-    findAllUser,
+    findAllUsers,
+    findUserByEmail,
     findUserById,
-    createNewUser,
+    createUser,
     updateUser,
     deleteUser
 }

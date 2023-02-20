@@ -1,7 +1,6 @@
-const {Sequelize} = require('sequelize')
+const {Sequelize} = require( 'sequelize' )
+const configs = require( '../../config' )
 
-const config = require('../../config')
-
-const db = new Sequelize(config.db[config.api.nodeEnv])
+const db = new Sequelize( configs.db )
 
 module.exports = db

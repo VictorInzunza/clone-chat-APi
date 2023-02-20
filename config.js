@@ -1,58 +1,22 @@
+require( 'dotenv' ).config()
 
 const configs = {
-    api: {
+    api:{
         port: process.env.PORT || 3000,
-        host: process.env.HOST || 'http://localhost:3000',
+        host: `${process.env.HOST}${process.env.PORT||'3000'}`,
         nodeEnv: process.env.NODE_ENV || 'development'
     },
-    db: {
-        development: {
-            //? Aqui deberan estar las configuraciones para la conexion con sequelize
-            dialect: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'postgres',
-            password: 'root',
-            database: 'chat-db',
-            define: {
-                timestamps: true, //? Nos obliga a que todas las tablas tengan la propiedad createdAt y upadtedAt
-                underscored: true,
-                underscoredAll: true 
-            }
-        },
-        production: {
-            //? Aqui deberan estar las configuraciones para la conexion con sequelize
-            dialect: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'postgres',
-            password: 'root',
-            database: 'chat-db',
-            define: {
-                timestamps: true, //? Nos obliga a que todas las tablas tengan la propiedad createdAt y upadtedAt
-                underscored: true,
-                underscoredAll: true 
-            },
-            dialectOptions: {
-                ssl: {
-                    require: true,
-                    rejectUnauthorized: false
-                }
-            }
-        },
-        testing: {
-            //? Aqui deberan estar las configuraciones para la conexion con sequelize
-            dialect: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'postgres',
-            password: 'root',
-            database: 'chat-db',
-            define: {
-                timestamps: true, //? Nos obliga a que todas las tablas tengan la propiedad createdAt y upadtedAt
-                underscored: true,
-                underscoredAll: true 
-            }
+    db:{
+        dialect: process.env.DB_DIALECT || 'postgres',
+        port: process.env.DB_PORT || 5432,
+        host: process.env.DB_HOST || `localhost`,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        define:{
+            timestamps:true, //? created_At && updated_at
+            underscored: true, //? Convierte camelCase en snake_case
+            underscoredAll: true
         }
     }
 }
